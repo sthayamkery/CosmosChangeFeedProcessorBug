@@ -61,7 +61,7 @@ namespace WK.FPTest
                 Log.Information("Waiting for next run");
                 Task.Delay(TimeSpan.FromSeconds(310));
             }
-            
+            Log.Information("Data transmission to source db completed.");
         }
 
 
