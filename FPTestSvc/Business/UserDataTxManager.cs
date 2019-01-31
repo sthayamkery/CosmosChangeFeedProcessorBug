@@ -19,16 +19,17 @@ namespace WK.FPTest.Business
         }
         public async Task<bool> NoDuplicatesWereCreated()
         {
-            await Task.Delay(TimeSpan.FromSeconds(60));
             var result = await GetUserDataFromDestination();
             _logger.Information("{Count} records fetched from destination database",result.Count);
             if (result.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 _logger.Information("Please run the Data processor before running the validator");
                 return true;
             }
             if (result.Count > 62)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 _logger.Information("Duplicate data created. Expected count was 62 records. Actual count is {Count}",result.Count);
                 return false;
             }

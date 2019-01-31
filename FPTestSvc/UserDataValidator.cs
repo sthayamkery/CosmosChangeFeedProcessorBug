@@ -40,9 +40,10 @@ namespace WK.FPTest
         protected async Task OnStart(string[] args)
         {
             var txManager = _container.GetInstance<IUserDataTxManager>();
-            for (int i = 0; i < 20; i++)
+            for (int i = 1; i <= 20; i++)
             {
                 //clear source and dest db
+                Log.Information("Starting run {RunNum}", i);
                 Log.Information("Clearing existing data");
                 if (!await txManager.ClearData())
                 {
@@ -51,16 +52,18 @@ namespace WK.FPTest
                 Log.Information("Transmitting data to source db");
                 if (await txManager.SeedData())
                 {
-                    Log.Information("Validating data copied from source db to destination db");
-
+                    Log.Information("Validating data copied from source db to destination db. Waiting for one minute before checking");
+                    await Task.Delay(TimeSpan.FromSeconds(60));
                     if (!await txManager.NoDuplicatesWereCreated())
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Log.Information("Duplicate records created.");
                     }
                 }
-                Log.Information("Waiting for next run");
+                Log.Information("Waiting for next run {RunNum}", i+1);
                 Task.Delay(TimeSpan.FromSeconds(310));
             }
+            Console.ForegroundColor = ConsoleColor.Green;
             Log.Information("Data transmission to source db completed.");
         }
 
