@@ -14,8 +14,8 @@ Open the UserDataProcessor.sln and restore Nuget packages
 
 This sample uses the local Cosmos emulator
 
-*Database Names: fpData, fpLease (can be overriden in App.Config)
-*Collection Names: Monitored, Destination, Leases (can be overriden in App.Config)
+*Database Names: fpData, fpLease (You can find in App.Config)
+*Collection Names: comments(Monitored Collection), rxComments(Records all the change feeds received), leases 
 
 # Build and Test
 Set the project UserDataProcessorConsole as start up project. Run multiple instances(2 or more). Once the UserDataProcessor consoles are running, set the startup project as UserDataTxConsole. Start one instance of UserDataTxConsole. If duplicate records are created in the collection rxComments the logs will show the following message.
