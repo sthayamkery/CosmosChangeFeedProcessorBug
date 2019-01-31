@@ -37,26 +37,31 @@ namespace WK.FPTest
             _logger = _container.GetInstance<ILogger>();
         }
 
-        protected void OnStart(string[] args)
+        protected async Task OnStart(string[] args)
         {
-            
             var txManager = _container.GetInstance<IUserDataTxManager>();
-            //clear source and dest db
-            Log.Information("Clearing existing data");
-            if (!txManager.ClearData().Result)
+            for (int i = 0; i < 20; i++)
             {
-                Log.Information("Could not clear collections");
-            }
-            Log.Information("Transmitting data to source db");
-            if (txManager.SeedData().Result)
-            {
-                Log.Information("Validating data copied from source db to destination db");
-
-                if (!txManager.NoDuplicatesWereCreated().Result)
+                //clear source and dest db
+                Log.Information("Clearing existing data");
+                if (!await txManager.ClearData())
                 {
-                    Log.Information("Duplicate records created.");
+                    Log.Information("Could not clear collections");
                 }
+                Log.Information("Transmitting data to source db");
+                if (await txManager.SeedData())
+                {
+                    Log.Information("Validating data copied from source db to destination db");
+
+                    if (!await txManager.NoDuplicatesWereCreated())
+                    {
+                        Log.Information("Duplicate records created.");
+                    }
+                }
+                Log.Information("Waiting for next run");
+                Task.Delay(TimeSpan.FromSeconds(310));
             }
+            
         }
 
 
