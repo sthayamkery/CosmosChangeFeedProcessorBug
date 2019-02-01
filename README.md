@@ -7,7 +7,7 @@ UserDataProcessor listens to the change feed, processes the data and updates cos
 [15:01:40 INF] Partition 0 update failed because the lease with token '"00000000-0000-0000-b8de-78bc609701d4"' was updated by host 'UserDataProcessor' with token '"00000000-0000-0000-b8de-fd1b992201d4"'. Will retry, 5 retry(s) left.
 
 
-UserDataTx is a sample application which inserts data(31 records) to the monitored collection (comments). The date insertion is done every 5 minutes. Before inserting the data the existing data is cleared. The data insert will trigger the change feed. Userprocessor records the received change feed into a new collection (rxComments). It then processes the received data and updates the monitored collection. If everything works well the new collection should have 62 records (31 records with status "New" and 31 records with status "Processed"). In most cases we are seeing more than 62 records. 
+UserDataTx is a sample application which inserts data(31 records) to the monitored collection (comments). The date insertion is done every 5 minutes. Before inserting the data, existing data is cleared. The data insert will trigger the change feed. Userprocessor records the received change feed into a new collection (rxComments). It then processes the received data and updates the monitored collection. If everything works well the new collection should have 62 records (31 records with status "New" and 31 records with status "Processed"). In most cases we are seeing more than 62 records. 
 
 # Getting Started
 Open the UserDataProcessor.sln and restore Nuget packages
